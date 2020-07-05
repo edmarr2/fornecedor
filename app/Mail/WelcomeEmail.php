@@ -2,11 +2,11 @@
 
 namespace App\Mail;
 
+use App\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-
 class WelcomeEmail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -29,7 +29,7 @@ class WelcomeEmail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.created.welcome')
+        return $this->markdown('mail.created.welcome')
         ->subject('Boas Vindas!!!')
         ->with([
             'user' => $this->user,
