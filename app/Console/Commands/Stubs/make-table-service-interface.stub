@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Contracts\Tables\DummyNameSpace;
+
+use App\Contracts\TableServiceInterface;
+
+interface DummyNameClassTableServiceInterface extends TableServiceInterface
+{
+
+}

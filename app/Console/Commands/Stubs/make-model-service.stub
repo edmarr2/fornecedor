@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Services\Models\DummyNameSpace;
+
+use App\Contracts\Models\DummyNameSpace\DummyNameClassServiceInterface;
+use App\Services\BaseModelService;
+
+class DummyNameClassService extends BaseModelService implements DummyNameClassServiceInterface
+{
+    public function model()
+    {
+        return \App\Models\DummyNameSpace\DummyNameClass::class;
+    }
+
+}

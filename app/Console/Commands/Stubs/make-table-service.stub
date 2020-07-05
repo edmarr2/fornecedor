@@ -1,0 +1,113 @@
+<?php
+
+namespace App\Services\Tables\DummyNameSpace;
+
+use App\Models\DummyNameSpace\DummyNameClass;
+use App\Contracts\Models\DummyNameSpace\DummyNameClassServiceInterface;
+use App\Contracts\Tables\DummyNameSpace\DummyNameClassTableServiceInterface;
+use Yajra\DataTables\Html\Button;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Html\Editor\Editor;
+use Yajra\DataTables\Html\Editor\Fields;
+use Yajra\DataTables\Services\DataTable;
+
+class DummyNameClassTableService extends DataTable implements DummyNameClassTableServiceInterface
+{
+
+    public function responseAjax()
+    {
+        return $this->ajax();
+    }
+
+    public function setParams(array $params = [])
+    {
+        $this->params = $params;
+        return $this;
+    }
+
+    /**
+     * Build DataTable class.
+     *
+     * @param mixed $query Results from query() method.
+     * @return \Yajra\DataTables\DataTableAbstract
+     */
+    public function dataTable($query)
+    {
+        $usuario = auth()->user();
+
+        return datatables()
+            ->eloquent($query)
+            ->editColumn('action', function (DummyNameClass $model) use ($usuario) {
+                return view('components.tables.links-show-edit-destroy', [
+                    'show'    => $usuario->can('view', $model) ?   false : route('DummyRoutes.show', $model) ,
+                    'edit'    => $usuario->can('update', $model) ? false : route('DummyRoutes.edit', $model) ,
+                    'destroy' => $usuario->can('delete', $model) ? false : route('DummyRoutes.destroy', $model) ,
+                    'callbackDestroy' => "$('#datatable').DataTable().ajax.reload(null,false)",
+                ]);
+            })
+            ->rawColumns(['action']);
+    }
+
+    /**
+     * Get query source of dataTable.
+     *
+     * @param \App\Contracts\Models\DummyNameSpace\DummyNameClass $model
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function query(DummyNameClassServiceInterface $service)
+    {
+        return $service->getTableQueryBuilder([
+            'q' => request()->input('search.value'),
+        ]);
+    }
+
+    /**
+     * Optional method if you want to use html builder.
+     *
+     * @return \Yajra\DataTables\Html\Builder
+     */
+    public function html()
+    {
+        return $this->builder()
+                    ->setTableId('datatable')
+                    ->columns($this->getColumns())
+                    ->ajax(route(''))
+                    ->dom('frtip')
+                    ->orderBy([1, 'asc']);
+    }
+
+    /**
+     * Get columns.
+     *
+     * @return array
+     */
+    protected function getColumns()
+    {
+        return [
+            Column::make('id')
+                ->width(10)
+                ->addClass('text-center')
+                ->searchable(false),
+
+            Column::make('descricao')
+                ->title('Descrição')
+                ->searchable(false),
+
+            Column::computed('action')
+                ->orderable(false)
+                ->title('')
+                ->addClass('text-center')
+                ->width(200),
+        ];
+    }
+
+    /**
+     * Get filename for export.
+     *
+     * @return string
+     */
+    protected function filename()
+    {
+        return 'DummyNameClass_' . date('YmdHis');
+    }
+}

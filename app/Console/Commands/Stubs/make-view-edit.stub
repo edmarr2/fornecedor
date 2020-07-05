@@ -1,0 +1,17 @@
+@extends('layouts.app')
+
+@section('page-title', 'Editar')
+
+@section('content')
+<div class="content">
+    <div class="container-fluid">
+    <x-form :action="route('DummyRoute.update', $model)" method="put">
+        @include('DummyRoute.form', ['editar' => true])
+
+        @include('components.form-submit-buttons', [
+            'url' => route('DummyRoute.show', $model)
+        ])
+    </x-form>
+    </div>
+</div>
+@endsection

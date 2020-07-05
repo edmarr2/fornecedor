@@ -1,0 +1,15 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="content">
+    <div class="container-fluid">
+    <x-form :action="route('DummyRoute.store')" method="post">
+        @include('DummyRoute.form', ['editar' => false])
+
+        @include('components.form-submit-buttons', [
+            'url' => route('DummyRoute.index')
+        ])
+    </x-form>
+    </div>
+</div>
+@endsection

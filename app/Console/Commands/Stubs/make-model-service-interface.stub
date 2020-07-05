@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Contracts\Models\DummyNameSpace;
+
+use App\Contracts\ModelServiceInterface;
+
+interface DummyNameClassServiceInterface extends ModelServiceInterface
+{
+
+}

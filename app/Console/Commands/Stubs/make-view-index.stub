@@ -1,0 +1,28 @@
+@extends('layouts.app')
+
+@section('page-title', 'DummyName')
+
+@section('content')
+<div class="content">
+    <div class="container-fluid">
+        <div class="col-md-12">
+            <x-link :href="route('DummyRoute.create')">
+                <x-icon>add</x-icon> Cadastrar
+            </x-link>
+        </div>
+        <div class="col-md-12">
+            <div class="card">
+              <div class="card-header card-header-primary card-header-icon">
+                <h4 class="card-title">DummyName</h4>
+              </div>
+              <div class="card-body">
+                <div class="material-datatables">
+                  <x-datatable service="App\Contracts\Tables\...">
+                  </x-datatable>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+@endsection
